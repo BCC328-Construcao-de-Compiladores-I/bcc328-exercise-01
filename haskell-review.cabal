@@ -1,0 +1,59 @@
+cabal-version: 3.4
+
+name:           haskell-review
+version:        0.0.0.0
+-- synopsis:       $synopsis
+-- description:    $description
+-- category:       $category
+-- homepage:       $gitrepo#readme
+-- bug-reports:    $gitrepo/issues
+-- maintainer:     $maintainer
+build-type:     Simple
+
+-- source-repository head
+--   type: git
+--   location: $gitrepo
+
+common common-opts
+
+  build-depends:
+      base
+    , tasty
+    , tasty-hunit
+    , tasty-quickcheck
+  default-language: Haskell2010
+
+
+library
+  import: common-opts
+
+  -- cabal-fmt: expand src
+  exposed-modules:
+      Core
+
+  hs-source-dirs:
+      src
+
+executable haskell-review
+  import: common-opts
+  main-is: Main.lhs
+  hs-source-dirs:
+      app
+  build-depends: haskell-review
+
+test-suite haskell-review-tests
+  import: common-opts
+  type: exitcode-stdio-1.0
+  hs-source-dirs: test
+
+  ghc-options:
+    -Wall -threaded -rtsopts -with-rtsopts=-N -fdefer-typed-holes -O0
+
+  main-is: Main.hs
+
+  -- cabal-fmt: expand test -Main
+  other-modules:
+
+  build-depends:
+    , haskell-review
+
